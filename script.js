@@ -49,6 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
     mobileMenu.classList.toggle("hidden");
     iconOpen.classList.toggle("hidden");
     iconClose.classList.toggle("hidden");
+    // Lock/unlock background scrolling while the mobile menu is open
+    document.body.classList.toggle("overflow-hidden");
   };
 
   // Only wire up the toggle if every element it touches actually exists,
@@ -196,7 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (response.ok) {
           // Formspree accepted the submission.
           showFeedback(
-            `Thanks, ${nameField.value.trim()}! Your message has been received. We'll be in touch within one business day.`,
+            `Thank you, ${nameField.value.trim()}! Your message has been received successfully. We'll get back to you within one business day.`,
             true
           );
           contactForm.reset();
@@ -210,6 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       } catch (error) {
         // Network error — Formspree couldn't be reached at all.
+        console.error(error);
         showFeedback(
           "We couldn't send your message. Please check your connection and try again.",
           false
@@ -236,9 +239,9 @@ document.addEventListener("DOMContentLoaded", () => {
     formFeedback.textContent = message;
     formFeedback.classList.remove("hidden");
 
-    // Swap the text color depending on success vs. error state.
-    formFeedback.classList.toggle("text-accent", isSuccess);
-    formFeedback.classList.toggle("text-red-400", !isSuccess);
+    // Use the dedicated success/error classes defined in style.css
+    formFeedback.classList.remove("success", "error");
+    formFeedback.classList.add(isSuccess ? "success" : "error");
   }
 
 });
