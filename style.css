@@ -1,12 +1,320 @@
+/* =====================================================
+   XOFINZ — CUSTOM STYLESHEET
+   This file only contains styles that Tailwind's utility
+   classes can't easily do: animations, gradients, glass
+   effects, and custom hover states. Layout, color, and
+   spacing are handled by Tailwind directly in index.html.
+   ===================================================== */
+
+/* -----------------------------------------------------
+   1. GLOBAL / BASE
+   ----------------------------------------------------- */
+
+/* Smooth scrolling for anchor links (Home, About, etc.) */
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
-body {
-    font-family: 'Inter', sans-serif;
+/* Account for the fixed navbar height when jumping to a section */
+section[id] {
+  scroll-margin-top: 80px;
 }
 
-::selection {
-    background: #2563EB;
-    color: white;
+/* Custom scrollbar for a more premium feel (desktop browsers) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020617;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #1e293b;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #2563eb;
+}
+
+/* Visible keyboard focus outline for accessibility */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+
+/* -----------------------------------------------------
+   2. NAVIGATION LINKS
+   ----------------------------------------------------- */
+
+/* Desktop nav links get an animated underline on hover */
+.nav-link {
+  position: relative;
+  color: #cbd5e1; /* slate-300 */
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background-color: #2563eb;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #ffffff;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Mobile nav links: simple full-width tap targets */
+.mobile-nav-link {
+  display: block;
+  padding: 0.75rem 0;
+  color: #cbd5e1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: color 0.3s ease, padding-left 0.3s ease;
+}
+
+.mobile-nav-link:hover {
+  color: #ffffff;
+  padding-left: 0.5rem;
+}
+
+/* Active state for the desktop nav link matching the section
+   currently in view (toggled by script.js via IntersectionObserver) */
+.nav-link-active {
+  color: #ffffff;
+}
+
+/* Active state for the mobile nav link matching the section
+   currently in view */
+.mobile-nav-link-active {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Navbar gets a slightly stronger shadow once the page is scrolled
+   (the "scrolled" class is toggled by script.js) */
+#navbar.scrolled {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+}
+
+
+/* -----------------------------------------------------
+   3. HERO SECTION
+   ----------------------------------------------------- */
+
+/* Soft radial glow behind the hero content for depth,
+   without relying on a heavy background image */
+.hero-glow {
+  background: radial-gradient(
+    circle at 50% 20%,
+    rgba(37, 99, 235, 0.25) 0%,
+    rgba(2, 6, 23, 0) 60%
+  );
+}
+
+/* Fade-and-rise entrance animation for hero content.
+   Each element can stagger using an inline animation-delay. */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-up {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+
+/* -----------------------------------------------------
+   4. ABOUT — STAT CARDS
+   ----------------------------------------------------- */
+
+.stat-card {
+  padding: 1.75rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); /* Safari support */
+  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(37, 99, 235, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+
+/* -----------------------------------------------------
+   5. SERVICES — SERVICE CARDS
+   ----------------------------------------------------- */
+
+.service-card {
+  padding: 2.5rem 2rem;
+  border-radius: 1rem;
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(96, 165, 250, 0.4);
+  box-shadow: 0 20px 40px -20px rgba(37, 99, 235, 0.35);
+}
+
+/* Icon badge that sits above each service title */
+.icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  margin-bottom: 1.5rem;
+  color: #60a5fa;
+  background: rgba(37, 99, 235, 0.12);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.service-card:hover .icon-badge {
+  background: rgba(37, 99, 235, 0.25);
+  transform: scale(1.08);
+}
+
+
+/* -----------------------------------------------------
+   6. INDUSTRIES — GLASSMORPHISM CARDS
+   ----------------------------------------------------- */
+
+/* True glass effect: translucent background + blur,
+   fits naturally over the section's darker backdrop */
+.industry-card {
+  padding: 2rem 1.5rem;
+  border-radius: 1rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+}
+
+.industry-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  background: rgba(37, 99, 235, 0.08);
+  border-color: rgba(96, 165, 250, 0.35);
+}
+
+
+/* -----------------------------------------------------
+   7. WHY XOFINZ — FEATURE CARDS
+   ----------------------------------------------------- */
+
+.why-card {
+  padding: 1.5rem;
+  border-radius: 0.875rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 3px solid #2563eb;
+  transition: background 0.3s ease, border-left-color 0.3s ease, padding-left 0.3s ease;
+}
+
+.why-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-left-color: #60a5fa;
+  padding-left: 1.75rem;
+}
+
+
+/* -----------------------------------------------------
+   8. CONTACT FORM
+   ----------------------------------------------------- */
+
+/* Slightly lift inputs on focus for a premium, tactile feel */
+#contact-form input,
+#contact-form textarea {
+  transition: transform 0.2s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+#contact-form input:focus,
+#contact-form textarea:focus {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* Submit button gets a subtle lift + glow on hover */
+#contact-form button[type="submit"] {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+#contact-form button[type="submit"]:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -10px rgba(37, 99, 235, 0.55);
+}
+
+/* Feedback message fades in once shown by script.js */
+#form-feedback {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+/* Success vs. error color states for the feedback message
+   (the classes themselves are toggled on/off by script.js) */
+#form-feedback.text-accent {
+  color: #60a5fa;
+}
+
+#form-feedback.text-red-400 {
+  color: #f87171;
+}
+
+
+/* -----------------------------------------------------
+   9. RESPONSIVE ADJUSTMENTS
+   ----------------------------------------------------- */
+
+/* Tighten up section spacing a bit on small screens so
+   content doesn't feel too sparse on mobile */
+@media (max-width: 640px) {
+  .service-card,
+  .stat-card,
+  .industry-card {
+    padding: 1.5rem;
+  }
+
+  .why-card:hover {
+    padding-left: 1.5rem;
+  }
 }
