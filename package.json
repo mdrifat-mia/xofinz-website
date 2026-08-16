@@ -1,10 +1,11 @@
 {
   "name": "xofinz-website-git",
   "version": "1.0.0",
-  "description": "Official website for Xofinz | Business Growth &amp; Strategy Consulting",
+  "description": "Official website for Xofinz | Business Growth & Strategy Consulting",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tailwindcss -i ./input.css -o ./output.css --minify",
+    "watch": "tailwindcss -i ./input.css -o ./output.css --watch"
   },
   "repository": {
     "type": "git",
